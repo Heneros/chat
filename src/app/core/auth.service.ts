@@ -1,9 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { BrowserModule } from '@angular/platform-browser';
+
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFirestore, AngularFirestoreDocument} from 'angularfire2/firestore';
-import { Observable } from 'rxjs';
-import 'rxjs/add/operator/switchMap';
+import { Observable,  of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+import {error} from 'util';
+
+
 interface User {
 	uid: string,
   email: string,
@@ -30,5 +35,11 @@ this.user = this.afAuth.authState.switchMap(user => {
   	 	return this.afAuth.auth.signInWithEmailAndPassword(email, password)
   	 	.then(() => console.log("You have succ. signed in"))
   	 	.catch(error => console.log(error.message))
+  	 }
+  	 signOut(){
+  	 	return this.afAuth.auth.signOut()
+  	 	.then(() => {
+  	 		this.router.navigate(['/'])
+  	 	})
   	 }
 }
